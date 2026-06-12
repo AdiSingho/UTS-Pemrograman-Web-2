@@ -103,4 +103,20 @@ class TugasTest extends TestCase
             'deskripsi' => 'Tugas sudah diubah',
         ]);
     }
+
+    // --- Laporan Tugas Harian ---
+    public function test_user_bisa_melihat_laporan_tugas_harian(): void
+    {
+        // 1. Persiapan: Buat data tugas
+        \App\Models\Tugas::create(['deskripsi' => 'Tugas 1', 'tanggal_target' => '2026-06-20', 'is_selesai' => true]);
+        \App\Models\Tugas::create(['deskripsi' => 'Tugas 2', 'tanggal_target' => '2026-06-20', 'is_selesai' => false]);
+
+        // 2. Aksi: Buka rute laporan
+        $response = $this->get('/tugas/laporan/2026-06-20');
+
+        // 3. Cek: Pastikan tampil angka 1 untuk selesai dan 1 untuk belum
+        $response->assertStatus(200);
+        $response->assertSee('Selesai: 1');
+        $response->assertSee('Belum Selesai: 1');
+    }
 }

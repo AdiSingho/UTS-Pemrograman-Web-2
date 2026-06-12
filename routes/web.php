@@ -17,3 +17,5 @@ Route::delete('/tugas/{id}', [TugasController::class, 'destroy']);
 Route::put('/tugas/{id}/selesai', [TugasController::class, 'selesai']);
 
 Route::put('/tugas/{id}', [TugasController::class, 'update']);
+
+Route::get('/tugas/laporan/{tanggal}', [TugasController::class, 'laporan']);

@@ -55,4 +55,12 @@ class TugasController extends Controller
         
         return redirect('/tugas');
     }
+
+    public function laporan($tanggal)
+    {
+        $selesai = Tugas::where('tanggal_target', $tanggal)->where('is_selesai', true)->count();
+        $belum = Tugas::where('tanggal_target', $tanggal)->where('is_selesai', false)->count();
+        
+        return "Selesai: $selesai, Belum Selesai: $belum";
+    }
 }
