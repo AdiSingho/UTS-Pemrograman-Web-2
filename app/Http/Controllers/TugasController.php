@@ -32,4 +32,12 @@ class TugasController extends Controller
         
         return redirect('/tugas'); // Kembalikan user ke halaman daftar tugas
     }
+
+    // Fungsi untuk menandai selesai
+    public function selesai($id)
+    {
+        $tugas = Tugas::findOrFail($id);
+        $tugas->update(['is_selesai' => true]);
+        return redirect('/tugas');
+    }
 }

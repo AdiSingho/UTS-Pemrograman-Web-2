@@ -13,3 +13,5 @@ Route::post('/tugas', [TugasController::class, 'store']);
 Route::get('/tugas', [TugasController::class, 'index']);
 
 Route::delete('/tugas/{id}', [TugasController::class, 'destroy']);
+
+Route::put('/tugas/{id}/selesai', [TugasController::class, 'selesai']);

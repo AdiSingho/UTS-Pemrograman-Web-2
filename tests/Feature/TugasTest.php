@@ -27,6 +27,7 @@ class TugasTest extends TestCase
             'deskripsi' => 'Belajar TDD Laravel',
         ]);
     }
+    // --- Fitur Melihat Daftar Tugas ---
     public function test_user_bisa_melihat_daftar_tugas(): void
     {
         // 1. Persiapan: Buat satu data tugas langsung ke database
@@ -60,6 +61,26 @@ class TugasTest extends TestCase
         // 3. Cek: Pastikan data tersebut sudah hilang (missing) dari database
         $this->assertDatabaseMissing('tugas', [
             'id' => $tugas->id,
+        ]);
+    }
+
+    // --- Fitur Menandai Tugas Selesai ---
+    public function test_user_bisa_menandai_tugas_selesai(): void
+    {
+        // 1. Persiapan: Buat tugas yang BELUM selesai
+        $tugas = \App\Models\Tugas::create([
+            'deskripsi' => 'Belajar Selesai',
+            'tanggal_target' => '2026-06-20',
+            'is_selesai' => false,
+        ]);
+
+        // 2. Aksi: Kirim perintah PUT ke rute 'selesai'
+        $this->put('/tugas/' . $tugas->id . '/selesai');
+
+        // 3. Cek: Pastikan di database statusnya jadi 1 (true)
+        $this->assertDatabaseHas('tugas', [
+            'id' => $tugas->id,
+            'is_selesai' => true,
         ]);
     }
 }
