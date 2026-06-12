@@ -17,7 +17,7 @@ class TugasController extends Controller
     public function store(Request $request)
     {
         Tugas::create($request->all()); // Simpan semua data yang dikirim
-        return response('Sukses', 201);
+        return redirect('/tugas');
     }
 
     // Fungsi untuk menghapus tugas
