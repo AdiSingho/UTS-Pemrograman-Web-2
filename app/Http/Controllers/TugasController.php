@@ -40,4 +40,19 @@ class TugasController extends Controller
         $tugas->update(['is_selesai' => true]);
         return redirect('/tugas');
     }
+
+    public function update(Request $request, $id)
+    {
+        $tugas = Tugas::findOrFail($id);
+        
+        // Cek syarat: hanya bisa edit jika belum selesai
+        if ($tugas->is_selesai == false) {
+            $tugas->update([
+                'deskripsi' => $request->deskripsi,
+                'tanggal_target' => $request->tanggal_target,
+            ]);
+        }
+        
+        return redirect('/tugas');
+    }
 }

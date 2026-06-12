@@ -83,4 +83,24 @@ class TugasTest extends TestCase
             'is_selesai' => true,
         ]);
     }
+
+    // --- Edit Tugas yang Belum Selesai ---
+    public function test_user_bisa_mengedit_tugas_yang_belum_selesai(): void
+    {
+        $tugas = \App\Models\Tugas::create([
+            'deskripsi' => 'Tugas awal',
+            'tanggal_target' => '2026-06-20',
+            'is_selesai' => false,
+        ]);
+
+        $this->put('/tugas/' . $tugas->id, [
+            'deskripsi' => 'Tugas sudah diubah',
+            'tanggal_target' => '2026-06-21',
+        ]);
+
+        $this->assertDatabaseHas('tugas', [
+            'id' => $tugas->id,
+            'deskripsi' => 'Tugas sudah diubah',
+        ]);
+    }
 }
