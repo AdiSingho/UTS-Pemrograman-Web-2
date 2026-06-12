@@ -27,4 +27,20 @@ class TugasTest extends TestCase
             'deskripsi' => 'Belajar TDD Laravel',
         ]);
     }
+    public function test_user_bisa_melihat_daftar_tugas(): void
+    {
+        // 1. Persiapan: Buat satu data tugas langsung ke database
+        $tugas = \App\Models\Tugas::create([
+            'deskripsi' => 'Mengerjakan fitur lihat tugas',
+            'tanggal_target' => '2026-06-20',
+            'is_selesai' => false,
+        ]);
+
+        // 2. Aksi: User membuka rute GET '/tugas'
+        $response = $this->get('/tugas');
+
+        // 3. Cek: Pastikan status halaman 200 (sukses) dan deskripsi tugas terlihat di halaman
+        $response->assertStatus(200);
+        $response->assertSee('Mengerjakan fitur lihat tugas');
+    }
 }
