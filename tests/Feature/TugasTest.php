@@ -43,4 +43,23 @@ class TugasTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Mengerjakan fitur lihat tugas');
     }
+
+    // --- Fitur Menghapus Tugas yang Belum Selesai ---
+    public function test_user_bisa_menghapus_tugas_belum_selesai(): void
+    {
+        // 1. Persiapan: Buat satu data tugas yang statusnya BELUM selesai (false)
+        $tugas = \App\Models\Tugas::create([
+            'deskripsi' => 'Tugas yang akan dihapus',
+            'tanggal_target' => '2026-06-20',
+            'is_selesai' => false,
+        ]);
+
+        // 2. Aksi: Kirim perintah DELETE ke URL spesifik tugas tersebut
+        $response = $this->delete('/tugas/' . $tugas->id);
+
+        // 3. Cek: Pastikan data tersebut sudah hilang (missing) dari database
+        $this->assertDatabaseMissing('tugas', [
+            'id' => $tugas->id,
+        ]);
+    }
 }
